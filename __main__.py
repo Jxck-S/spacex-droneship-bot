@@ -66,7 +66,8 @@ def main(test_data=None, max_run_count=None):
     next_port_name = None
 
     from datetime import datetime
-    def status_update(text_update, ship_json):
+    def status_update(text_update, ship_json, ship_window):
+        text_update = "A Shortfall of Gravitas " + text_update
         print(text_update)
         import os
         map_file_name = "map.png"
@@ -74,6 +75,8 @@ def main(test_data=None, max_run_count=None):
         from map import get_map
         ship_location = ship_json["LAT"] + ", " + ship_json["LON"]
         get_map(ship_location, map_file_name, google_api_key)
+        from overlay import info_overlay
+        info_overlay(map_file_name, ship_json, ship_window)
         #Tweet
         twitter_media_map_obj = tweet_api.media_upload(map_file_name)
         alt_text = f"{ship_location} "
@@ -96,23 +99,23 @@ def main(test_data=None, max_run_count=None):
                 status = ship_json["STATUS_NAME"]
             elif status != ship_json["STATUS_NAME"]:
                 status = ship_json["STATUS_NAME"]
-                text_update = f"Now {status}"
-                status_update(text_update, ship_json)
+                text_update = f"now {status}"
+                status_update(text_update, ship_json, ship_window_values)
         if "DESTINATION" in ship_json.keys():
             if destination is None:
                 destination = ship_json["DESTINATION"]
             elif destination != ship_json["DESTINATION"]:
                 destination = ship_json["DESTINATION"]
-                text_update = f"Destination is now {destination}"
-                status_update(text_update, ship_json)
+                text_update = f"destination is now {destination}"
+                status_update(text_update, ship_json, ship_window_values)
 
         if "next_port_name" in ship_window_values.keys():
             if next_port_name is None:
                 next_port_name = ship_window_values["next_port_name"]
             elif status != ship_window_values["next_port_name"]:
                 next_port_name = ship_window_values["next_port_name"]
-                text_update = f"Ships next port is now {next_port_name}"
-                status_update(text_update, ship_json)
+                text_update = f"next port is now {next_port_name}"
+                status_update(text_update, ship_json, ship_window_values)
         run_count += 1
         now = datetime.now().time()
         print("Check complete at", now, "Sleeping 30min")
@@ -131,7 +134,8 @@ def run_test():
     ]}
     main(test_data, run_count)
 if __name__ == "__main__":
+    #run_test()
     if options.t:
-        run_test()
+       run_test()
     else:
-        main()
+       main()

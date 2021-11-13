@@ -5,10 +5,9 @@ def get_map(center, file_name, api_key):
     zoom = 5
 
     r = requests.get(url + "center=" + center + "&zoom=" +
-                    str(zoom) + "&size=800x800 &key=" +
+                    str(zoom) + "&size=640x640 &key=" +
                     api_key + "&maptype=satellite" +
-                    f"&markers=|{center}")
-                    #icon:http://cdn.sstatic.net/Sites/stackoverflow/img/favicon.ico
+                    f"&markers=icon:https://i.postimg.cc/26GXVNhj/spacex-marker.png|{center}")
 
     # wb mode is stand for write binary mode
     f = open(file_name, 'wb')
