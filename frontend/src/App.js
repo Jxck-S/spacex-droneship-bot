@@ -1,8 +1,13 @@
-function App() {
+import {ThemeProvider} from '@mui/material'
+import theme from './theme'
+import Navbar from './components/Navbar'
+
+const App = () =>
+{
   return (
-    <div>
-      <h1>Hello world!</h1>
-    </div>
+      <ThemeProvider theme={theme}>
+        <Navbar />
+      </ThemeProvider>
   );
 }
 
