@@ -1,12 +1,6 @@
-def getMap(center, file_name):
+def get_map(center, file_name, api_key):
     import requests
-    import configparser
-    # config = configparser.ConfigParser()
-    # config.read('./configs/mainconf.ini')
-    # api_key = config.get('GOOGLE', 'API_KEY')
-    api_key = ""
     url = "https://maps.googleapis.com/maps/api/staticmap?"
-
     center = str(center)
     zoom = 5
 
