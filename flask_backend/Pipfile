@@ -1,0 +1,20 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+plotly = "*"
+pandas = "*"
+flask = "*"
+requests = "*"
+gunicorn = "*"
+apscheduler = "*"
+html-table-parser-python3 = "*"
+flask-htpasswd = "*"
+bcrypt = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.9"
