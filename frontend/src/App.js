@@ -2,58 +2,64 @@ import React, { useState } from 'react';
 import {ThemeProvider} from '@mui/material'
 import theme from './theme'
 import Navbar from './components/Navbar'
-import MyComponent from './components/MyComponent';
+
 import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
+
 import {
   Box,
-  // AppBar,
-  // Toolbar,
   Button,
-  Typography,
-  // IconButton
 } from '@mui/material'
+import MapDisplay from './components/MapDisplay';
 
 const App = () =>
-{
-
-  // const count = 0;
-  // const url = "http://gcp.jackstech.net/asog.json"
-
-  // const fetchData = () => {
-  // fetch(url).then(response => response.json()).then(data => console.log(data))
-
-  
+{  
   const [aCoordinate, getFetchData] = useState('');
 
 
-  // https://foodish-api.herokuapp.com/api/
+  const Input = () => {
+    return <MapDisplay latCord={latCords} lonCord={lonCords} shipName={shipName}/>;
+  };
+
+  const [googleMapList, setgoogleMapList] = useState([]);
+
+  const onAddBtnClick = event => {
+    setgoogleMapList(googleMapList.concat(<Input key={googleMapList.length} />));
+  };
+
+  let shipName = undefined;
+  let latCords = undefined;
+  let lonCords = undefined;
+
   async function fetchData() {
     try {
-      let response = await fetch('https://asogflask.herokuapp.com/asog.json', {mode: 'no-cors'});
+      // Fetching JSON data from API
+      let response = await fetch('https://asogflask.herokuapp.com/asog.json');
       let responseJson = await response.json();
 
-      let coordinates = responseJson["LENGTH"];
-      // console.log(coordinates.text);
-      
-      getFetchData(coordinates);
-      // console.log(responseJson.image);
-      // console.log("coordinates = " + coordinatesPrint);
+      // Getting information from fetched data
+      shipName = responseJson["SHIPNAME"];
+      latCords = responseJson["LAT"];
+      lonCords = responseJson["LON"];
 
+      latCords = parseFloat(latCords);
+      lonCords = parseFloat(lonCords);
+      
+      
+      onAddBtnClick(); 
+      getFetchData(shipName);
+           
      } catch(error) {
       console.error(error);
     }
   }
-
 
   return (
       <ThemeProvider theme={theme}>
         <Navbar />
 
         <Box sx={{display:"flex", flexDirection: "column", justifyContent:"center", alignItems:"center"}}>
-          <Button variant="contained" onClick={fetchData}>Fetch some Data</Button>
-
-          <Typography sx={{fontSize: "2rem", color:"#fff"}}>Data received: {aCoordinate}</Typography>
-          <MyComponent />
+          <Button sx={{mt: '1rem'}}variant="contained" onClick={fetchData}>Update Data</Button>
+          {googleMapList}
         </Box>
         
       </ThemeProvider>
