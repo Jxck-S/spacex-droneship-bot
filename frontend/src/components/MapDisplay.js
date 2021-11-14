@@ -15,9 +15,6 @@ function MapDisplay(props) {
   })
 
   // Coordinates
-  console.log("CORDS INSINDE" + props.latCord);
-  console.log(props.lonCord);
-
   let someLat = parseFloat(props.latCord);
   let someLon = parseFloat(props.lonCord);
 
